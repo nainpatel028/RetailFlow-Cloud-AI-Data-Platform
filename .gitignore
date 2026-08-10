@@ -1,0 +1,65 @@
+# Environment / secrets
+.env
+*.env.local
+**/credentials/
+**/*credentials*.json
+**/*.pem
+**/*.key
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# pytest / test caches
+.pytest_cache/
+.cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Temporary outputs
+*.tmp
+*.log
+tmp/
+temp/
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Power BI temporary/backup files
+*.pbix.bak
+~$*.pbix
+*.pbit.bak
+
+# Generated synthetic source data (Parquet). Regenerable via
+# `python scripts/generate_data.py` against seed 42 — not tracked in git,
+# since the portfolio profile alone is millions of rows. Each profile's
+# manifest.json (row counts, file hashes, injected issue codes/rates) is
+# small and IS tracked, so the intended output stays documented.
+data/incoming/*/customers/
+data/incoming/*/orders/
+data/incoming/*/payments/

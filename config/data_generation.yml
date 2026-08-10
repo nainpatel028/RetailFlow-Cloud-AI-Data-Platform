@@ -1,0 +1,144 @@
+# Configuration for scripts/generate_data.py
+#
+# This is the single source of truth for the synthetic data generator's
+# volumes, output layout, and deliberate data-quality issue rates. The
+# generated data models a realistically dirty source-system export, not a
+# clean production dataset — see docs/data_contracts.md.
+
+seed: 42
+as_of_date: "2026-01-31"
+
+currency: CAD
+
+# Row counts and Parquet part-file sizing per profile. rows_per_file controls
+# how many part files are written per dataset (not a hard cap on file count).
+profiles:
+  development:
+    row_counts:
+      customers: 10000
+      orders: 100000
+      payments: 130000
+    rows_per_file:
+      customers: 10000
+      orders: 50000
+      payments: 65000
+  portfolio:
+    row_counts:
+      customers: 100000
+      orders: 1000000
+      payments: 1300000
+    rows_per_file:
+      customers: 50000
+      orders: 200000
+      payments: 260000
+
+parquet:
+  compression: snappy
+
+# Quoted explicitly: PyYAML (1.1 spec) parses bare ON/OFF/YES/NO as booleans.
+provinces:
+  - "AB"
+  - "BC"
+  - "MB"
+  - "NB"
+  - "NL"
+  - "NS"
+  - "NT"
+  - "NU"
+  - "ON"
+  - "PE"
+  - "QC"
+  - "SK"
+  - "YT"
+
+domains:
+  customer_status:
+    - active
+    - inactive
+  order_status:
+    - pending
+    - completed
+    - cancelled
+  sales_channel:
+    - online
+    - mobile
+    - store
+  payment_method:
+    - credit_card
+    - debit_card
+    - digital_wallet
+    - gift_card
+  payment_status:
+    - pending
+    - successful
+    - failed
+
+failure_reasons:
+  - insufficient_funds
+  - card_declined
+  - expired_card
+  - network_timeout
+  - fraud_review
+
+# Deliberately invalid values drawn from during issue injection. These are
+# realistic examples of what a raw source-system export might contain.
+invalid_values:
+  province: ["ZZ", "XX", "QQ", "on", "Quebec"]
+  customer_status: ["Active", "ACTIVE", "unknown", "suspended", ""]
+  order_status: ["Completed", "CANCELLED", "unknown", "shipped", ""]
+  sales_channel: ["Online", "phone", "kiosk", "STORE", ""]
+  payment_method: ["Visa", "CREDIT_CARD", "bitcoin", "unknown", ""]
+  payment_status: ["Success", "FAILED", "unknown", "declined", ""]
+  currency: ["USD", "usd", "CA$", "EUR", ""]
+  order_amount: ["BAD_AMOUNT", "N/A", "unknown", "$100.00", "1,234.56"]
+  payment_amount: ["BAD_AMOUNT", "N/A", "unknown", "$50.00", "9,999.99"]
+  date: ["2026-02-30", "0000-00-00", "31-12-2025", "not-a-date", "2026-13-01"]
+  timestamp: ["2026-02-30T99:99:99Z", "not-a-timestamp", "2026/01/15 10:00:00", "0000-00-00T00:00:00Z", "invalid"]
+
+# Issue rates are fractions of total rows (e.g. 0.01 = 1%). Issues sharing a
+# target column are mutually exclusive (a single row is affected by at most
+# one issue on that column) so manifest counts match the data exactly.
+# Actual affected-row counts are recorded per run in each profile's
+# manifest.json, since exact counts follow from the seed, not the rate.
+issue_rates:
+  customers:
+    DUPLICATE_CUSTOMER_ID: 0.002
+    NULL_OR_BLANK_CUSTOMER_ID: 0.001
+    BLANK_EMAIL: 0.01
+    MALFORMED_EMAIL: 0.01
+    INVALID_PROVINCE_CODE: 0.008
+    INVALID_CUSTOMER_STATUS: 0.005
+    INVALID_SIGNUP_DATE: 0.003
+    FUTURE_SIGNUP_DATE: 0.003
+    WHITESPACE_PADDING: 0.01
+    MIXED_CASING: 0.01
+  orders:
+    DUPLICATE_ORDER_ID: 0.002
+    NULL_OR_BLANK_ORDER_ID: 0.001
+    ORPHAN_CUSTOMER_ID: 0.005
+    MISSING_CUSTOMER_ID: 0.003
+    INVALID_ORDER_TIMESTAMP: 0.003
+    FUTURE_ORDER_TIMESTAMP: 0.003
+    NONNUMERIC_ORDER_AMOUNT: 0.005
+    NEGATIVE_ORDER_AMOUNT: 0.005
+    BLANK_ORDER_AMOUNT: 0.005
+    INVALID_ORDER_STATUS: 0.008
+    INVALID_SALES_CHANNEL: 0.008
+    WHITESPACE_PADDING: 0.008
+    INVALID_CURRENCY: 0.003
+  payments:
+    DUPLICATE_PAYMENT_ID: 0.002
+    NULL_OR_BLANK_PAYMENT_ID: 0.001
+    ORPHAN_ORDER_ID: 0.005
+    MISSING_ORDER_ID: 0.003
+    INVALID_PAYMENT_TIMESTAMP: 0.003
+    PAYMENT_BEFORE_ORDER: 0.01
+    NONNUMERIC_PAYMENT_AMOUNT: 0.004
+    NEGATIVE_PAYMENT_AMOUNT: 0.004
+    BLANK_PAYMENT_AMOUNT: 0.004
+    AMOUNT_MISMATCH: 0.008
+    INVALID_PAYMENT_METHOD: 0.008
+    INVALID_PAYMENT_STATUS: 0.008
+    INVALID_CURRENCY: 0.003
+    FAILED_MISSING_REASON: 0.02
+    SUCCESSFUL_WITH_REASON: 0.01

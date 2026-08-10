@@ -1,0 +1,376 @@
+{
+  "as_of_date": "2026-01-31",
+  "compression": "snappy",
+  "datasets": {
+    "customers": {
+      "columns": [
+        "customer_id",
+        "full_name",
+        "email",
+        "province",
+        "signup_date",
+        "customer_status"
+      ],
+      "file_count": 2,
+      "files": [
+        {
+          "path": "customers/part-00000.parquet",
+          "row_count": 50000,
+          "sha256": "9cee9aac394007629246cefe68e1b0e4bac709ee0333367419b289e57035ebed"
+        },
+        {
+          "path": "customers/part-00001.parquet",
+          "row_count": 50000,
+          "sha256": "f3a196e80a2c96e41a371f7987327b058e46e2dd5fb2c6d7db229c90586c8bdf"
+        }
+      ],
+      "raw_types": {
+        "customer_id": "string",
+        "customer_status": "string",
+        "email": "string",
+        "full_name": "string",
+        "province": "string",
+        "signup_date": "string"
+      },
+      "row_count": 100000
+    },
+    "orders": {
+      "columns": [
+        "order_id",
+        "customer_id",
+        "order_timestamp",
+        "order_status",
+        "sales_channel",
+        "order_amount",
+        "currency"
+      ],
+      "file_count": 5,
+      "files": [
+        {
+          "path": "orders/part-00000.parquet",
+          "row_count": 200000,
+          "sha256": "8c295867ff35dc07653b8651e69582bc6e6be784fe3313f83f36873356c9721f"
+        },
+        {
+          "path": "orders/part-00001.parquet",
+          "row_count": 200000,
+          "sha256": "6ac82a6495f77781705b39e985483d5874e7d63fd1f27c394ffa5ae41440141c"
+        },
+        {
+          "path": "orders/part-00002.parquet",
+          "row_count": 200000,
+          "sha256": "f20ae98d3a1dfdac9511472cfc1a8fa2faf253f986e37f562f08be3ad696d9c9"
+        },
+        {
+          "path": "orders/part-00003.parquet",
+          "row_count": 200000,
+          "sha256": "6d0779f21a5c2d81f89a791b174f4f6851fcf39b02b13ee28c7d5f486504b114"
+        },
+        {
+          "path": "orders/part-00004.parquet",
+          "row_count": 200000,
+          "sha256": "b67fed13d204a69842f8a1ffc7838d43e779679b6c7251be1a7dc79ce7598a51"
+        }
+      ],
+      "raw_types": {
+        "currency": "string",
+        "customer_id": "string",
+        "order_amount": "string",
+        "order_id": "string",
+        "order_status": "string",
+        "order_timestamp": "string",
+        "sales_channel": "string"
+      },
+      "row_count": 1000000
+    },
+    "payments": {
+      "columns": [
+        "payment_id",
+        "order_id",
+        "payment_timestamp",
+        "payment_method",
+        "payment_status",
+        "payment_amount",
+        "currency",
+        "failure_reason"
+      ],
+      "file_count": 5,
+      "files": [
+        {
+          "path": "payments/part-00000.parquet",
+          "row_count": 260000,
+          "sha256": "f92233d2d25dcfaea09802f62be43aeb306286254246f4467dfda3c667d4b77d"
+        },
+        {
+          "path": "payments/part-00001.parquet",
+          "row_count": 260000,
+          "sha256": "c1ee8f42a9785a0346daeb674e753e1cb55114179ef0e26d7097790ae3471402"
+        },
+        {
+          "path": "payments/part-00002.parquet",
+          "row_count": 260000,
+          "sha256": "43719eeace955e86ec195b86e50bdf98dcfb73a3591d115464e6ed80bf7f6b39"
+        },
+        {
+          "path": "payments/part-00003.parquet",
+          "row_count": 260000,
+          "sha256": "84acdde509a065ce06fa7a4c70203bb43a3854624e4576a773d7c1f82e64e54e"
+        },
+        {
+          "path": "payments/part-00004.parquet",
+          "row_count": 260000,
+          "sha256": "fe422b850dbcd41eceb19eaedc4a733fd14f98d404d78ffff62988673dbd5af4"
+        }
+      ],
+      "raw_types": {
+        "currency": "string",
+        "failure_reason": "string",
+        "order_id": "string",
+        "payment_amount": "string",
+        "payment_id": "string",
+        "payment_method": "string",
+        "payment_status": "string",
+        "payment_timestamp": "string"
+      },
+      "row_count": 1300000
+    }
+  },
+  "issues": {
+    "customers": [
+      {
+        "affected_row_count": 211,
+        "code": "DUPLICATE_CUSTOMER_ID",
+        "column": "customer_id",
+        "configured_rate": 0.002
+      },
+      {
+        "affected_row_count": 83,
+        "code": "NULL_OR_BLANK_CUSTOMER_ID",
+        "column": "customer_id",
+        "configured_rate": 0.001
+      },
+      {
+        "affected_row_count": 1021,
+        "code": "BLANK_EMAIL",
+        "column": "email",
+        "configured_rate": 0.01
+      },
+      {
+        "affected_row_count": 971,
+        "code": "MALFORMED_EMAIL",
+        "column": "email",
+        "configured_rate": 0.01
+      },
+      {
+        "affected_row_count": 817,
+        "code": "INVALID_PROVINCE_CODE",
+        "column": "province",
+        "configured_rate": 0.008
+      },
+      {
+        "affected_row_count": 529,
+        "code": "INVALID_CUSTOMER_STATUS",
+        "column": "customer_status",
+        "configured_rate": 0.005
+      },
+      {
+        "affected_row_count": 307,
+        "code": "INVALID_SIGNUP_DATE",
+        "column": "signup_date",
+        "configured_rate": 0.003
+      },
+      {
+        "affected_row_count": 312,
+        "code": "FUTURE_SIGNUP_DATE",
+        "column": "signup_date",
+        "configured_rate": 0.003
+      },
+      {
+        "affected_row_count": 1045,
+        "code": "WHITESPACE_PADDING",
+        "column": "full_name",
+        "configured_rate": 0.01
+      },
+      {
+        "affected_row_count": 1043,
+        "code": "MIXED_CASING",
+        "column": "full_name",
+        "configured_rate": 0.01
+      }
+    ],
+    "orders": [
+      {
+        "affected_row_count": 1983,
+        "code": "DUPLICATE_ORDER_ID",
+        "column": "order_id",
+        "configured_rate": 0.002
+      },
+      {
+        "affected_row_count": 971,
+        "code": "NULL_OR_BLANK_ORDER_ID",
+        "column": "order_id",
+        "configured_rate": 0.001
+      },
+      {
+        "affected_row_count": 4989,
+        "code": "ORPHAN_CUSTOMER_ID",
+        "column": "customer_id",
+        "configured_rate": 0.005
+      },
+      {
+        "affected_row_count": 3026,
+        "code": "MISSING_CUSTOMER_ID",
+        "column": "customer_id",
+        "configured_rate": 0.003
+      },
+      {
+        "affected_row_count": 3035,
+        "code": "INVALID_ORDER_TIMESTAMP",
+        "column": "order_timestamp",
+        "configured_rate": 0.003
+      },
+      {
+        "affected_row_count": 3001,
+        "code": "FUTURE_ORDER_TIMESTAMP",
+        "column": "order_timestamp",
+        "configured_rate": 0.003
+      },
+      {
+        "affected_row_count": 5001,
+        "code": "NONNUMERIC_ORDER_AMOUNT",
+        "column": "order_amount",
+        "configured_rate": 0.005
+      },
+      {
+        "affected_row_count": 5058,
+        "code": "NEGATIVE_ORDER_AMOUNT",
+        "column": "order_amount",
+        "configured_rate": 0.005
+      },
+      {
+        "affected_row_count": 4989,
+        "code": "BLANK_ORDER_AMOUNT",
+        "column": "order_amount",
+        "configured_rate": 0.005
+      },
+      {
+        "affected_row_count": 7973,
+        "code": "INVALID_ORDER_STATUS",
+        "column": "order_status",
+        "configured_rate": 0.008
+      },
+      {
+        "affected_row_count": 8024,
+        "code": "INVALID_SALES_CHANNEL",
+        "column": "sales_channel",
+        "configured_rate": 0.008
+      },
+      {
+        "affected_row_count": 8032,
+        "code": "WHITESPACE_PADDING",
+        "column": "sales_channel",
+        "configured_rate": 0.008
+      },
+      {
+        "affected_row_count": 2982,
+        "code": "INVALID_CURRENCY",
+        "column": "currency",
+        "configured_rate": 0.003
+      }
+    ],
+    "payments": [
+      {
+        "affected_row_count": 2598,
+        "code": "DUPLICATE_PAYMENT_ID",
+        "column": "payment_id",
+        "configured_rate": 0.002
+      },
+      {
+        "affected_row_count": 1322,
+        "code": "NULL_OR_BLANK_PAYMENT_ID",
+        "column": "payment_id",
+        "configured_rate": 0.001
+      },
+      {
+        "affected_row_count": 6385,
+        "code": "ORPHAN_ORDER_ID",
+        "column": "order_id",
+        "configured_rate": 0.005
+      },
+      {
+        "affected_row_count": 3904,
+        "code": "MISSING_ORDER_ID",
+        "column": "order_id",
+        "configured_rate": 0.003
+      },
+      {
+        "affected_row_count": 3783,
+        "code": "INVALID_PAYMENT_TIMESTAMP",
+        "column": "payment_timestamp",
+        "configured_rate": 0.003
+      },
+      {
+        "affected_row_count": 13094,
+        "code": "PAYMENT_BEFORE_ORDER",
+        "column": "payment_timestamp",
+        "configured_rate": 0.01
+      },
+      {
+        "affected_row_count": 5241,
+        "code": "NONNUMERIC_PAYMENT_AMOUNT",
+        "column": "payment_amount",
+        "configured_rate": 0.004
+      },
+      {
+        "affected_row_count": 5229,
+        "code": "NEGATIVE_PAYMENT_AMOUNT",
+        "column": "payment_amount",
+        "configured_rate": 0.004
+      },
+      {
+        "affected_row_count": 5187,
+        "code": "BLANK_PAYMENT_AMOUNT",
+        "column": "payment_amount",
+        "configured_rate": 0.004
+      },
+      {
+        "affected_row_count": 10395,
+        "code": "AMOUNT_MISMATCH",
+        "column": "payment_amount",
+        "configured_rate": 0.008
+      },
+      {
+        "affected_row_count": 10324,
+        "code": "INVALID_PAYMENT_METHOD",
+        "column": "payment_method",
+        "configured_rate": 0.008
+      },
+      {
+        "affected_row_count": 8649,
+        "code": "FAILED_MISSING_REASON",
+        "column": "failure_reason",
+        "configured_rate": 0.02
+      },
+      {
+        "affected_row_count": 4362,
+        "code": "SUCCESSFUL_WITH_REASON",
+        "column": "failure_reason",
+        "configured_rate": 0.01
+      },
+      {
+        "affected_row_count": 10370,
+        "code": "INVALID_PAYMENT_STATUS",
+        "column": "payment_status",
+        "configured_rate": 0.008
+      },
+      {
+        "affected_row_count": 3857,
+        "code": "INVALID_CURRENCY",
+        "column": "currency",
+        "configured_rate": 0.003
+      }
+    ]
+  },
+  "profile": "portfolio",
+  "seed": 42
+}
