@@ -10,3 +10,6 @@ dependencies:
   - pip:
       - Faker==26.0.0
       - pytest==8.3.2
+      - ipykernel==6.29.5
+      - nbconvert==7.17.1
+      - nbclient==0.11.0
