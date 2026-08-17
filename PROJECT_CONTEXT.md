@@ -18,10 +18,10 @@ exists yet.
 | RF-002  | Build local Bronze ingestion        | Next                                      |
 | —       | Silver / Gold transformations       | Planned                                   |
 | —       | Data-quality audit engine           | Planned                                   |
-| —       | Azure implementation                | Planned                                   |
+| RF-011  | AWS cloud foundation (Terraform: S3/IAM/KMS, primary) | In Progress          |
 | —       | Power BI dashboards                 | Planned                                   |
 | —       | n8n read-only AI operations agent   | Planned                                   |
-| —       | AWS port                            | Planned                                   |
+| —       | Azure comparison (optional, later)  | Planned                                   |
 | —       | CI/CD and monitoring                | Planned                                   |
 
 ## What exists today

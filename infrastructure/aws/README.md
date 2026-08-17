@@ -4,15 +4,23 @@
 
 ## Future purpose
 
-Will hold infrastructure-as-code for the AWS resources that port the Azure
-implementation (see [../azure/README.md](../azure/README.md)) once RF-011
-begins.
+Will hold Terraform infrastructure-as-code for the primary AWS cloud
+foundation — S3, IAM, and KMS as the base layer feeding Snowflake — once
+RF-011 begins (see [DECISIONS.md](../../DECISIONS.md) #010). This is the
+first cloud platform built for this project, not a port of an existing
+Azure implementation.
+
+## Target architecture
+
+Terraform → AWS S3/IAM/KMS → Snowflake RAW → dbt Silver/Gold → Airflow →
+Power BI + AI + monitoring
 
 ## Learning objectives
 
-- Porting an infrastructure-as-code design from one cloud provider's
-  primitives to another's
-- Comparing Azure and AWS resource models for the same workload
+- Designing least-privilege IAM roles and policies from scratch
+- Provisioning S3 storage and KMS encryption with Terraform
+- Structuring Terraform for a small, real project (modules, environments,
+  remote state)
 - Keeping all resource configuration free of embedded secrets
 
 No resource definitions, deployment instructions, or credentials are

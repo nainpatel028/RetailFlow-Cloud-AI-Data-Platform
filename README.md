@@ -63,10 +63,10 @@ Source data is written as Snappy-compressed Parquet, in two profiles:
 | Silver cleaning / casting / deduplication | 🕒 Planned       |
 | Gold analytics-ready models             | 🕒 Planned       |
 | Data-quality audit engine               | 🕒 Planned       |
-| Azure implementation                    | 🕒 Planned       |
+| AWS cloud foundation (Terraform: S3/IAM/KMS) | 🕒 Planned (RF-011) |
 | Power BI dashboards                     | 🕒 Planned       |
 | n8n read-only AI operations agent       | 🕒 Planned       |
-| AWS port                                | 🕒 Planned       |
+| Azure comparison (optional, later)      | 🕒 Planned       |
 | CI/CD and monitoring                    | 🕒 Planned       |
 
 No cloud resources, dashboards, pipelines, or AI agents exist yet. Everything
@@ -79,10 +79,12 @@ in later tickets — see [TASK_BOARD.md](TASK_BOARD.md).
 2. **Bronze** — ingest raw Parquet as-is, preserving source values exactly
 3. **Silver** — validate, cast (`TRY_CAST`/`TRY_TO_*`), standardize, deduplicate,
    and quarantine invalid rows; **Gold** — analytics-ready business models
-4. **Azure implementation** of the pipeline (storage, compute, SQL)
+4. **AWS cloud foundation** (RF-011, primary implementation) — Terraform →
+   AWS S3/IAM/KMS → Snowflake RAW → dbt Silver/Gold → Airflow
 5. **Power BI** dashboards answering the business questions
 6. **n8n read-only agentic AI** operations agent, human-approved actions only
-7. **AWS port** of the Azure implementation
+7. **Azure comparison** (optional, later exercise — see
+   [DECISIONS.md](DECISIONS.md) #010)
 8. **CI/CD and monitoring** across environments
 
 ## Repository layout

@@ -32,25 +32,26 @@ flowchart TB
         L2["Local SQL Bronze/Silver/Gold 🕒"]
     end
 
-    subgraph AzureImpl["Azure implementation 🕒 planned"]
+    subgraph AWSImpl["AWS cloud foundation 🕒 planned (RF-011, primary)"]
+        AW1["S3 / IAM / KMS (Terraform)"]
+        AW2["Snowflake RAW"]
+        AW3["dbt Silver/Gold + Airflow"]
+    end
+
+    subgraph AzureImpl["Azure comparison 🕒 planned (optional, later)"]
         AZ1["Storage"]
         AZ2["Compute / pipeline"]
         AZ3["SQL / warehouse"]
     end
 
-    subgraph AWSImpl["AWS port 🕒 planned"]
-        AW1["Storage"]
-        AW2["Compute / pipeline"]
-        AW3["SQL / warehouse"]
-    end
-
-    Local --> AzureImpl
-    AzureImpl -. "ported to" .-> AWSImpl
+    Local --> AWSImpl
+    AWSImpl -. "optional comparison" .-> AzureImpl
 ```
 
-Azure is built first; AWS is a deliberate later port of the same design (see
-[DECISIONS.md](../DECISIONS.md) #003). Cloud resource mapping notes are in
-[cloud_mapping.md](cloud_mapping.md).
+AWS is built first as the primary cloud implementation (RF-011); Azure is
+an optional, later comparison exercise (see [DECISIONS.md](../DECISIONS.md)
+#010, which supersedes #003's Azure-first sequencing). Cloud resource
+mapping notes are in [cloud_mapping.md](cloud_mapping.md).
 
 ## Operations agent (n8n)
 
@@ -77,8 +78,8 @@ see [DECISIONS.md](../DECISIONS.md) #005 and
 | Silver transformation (cast, standardize, dedupe, quarantine) | 🕒 Planned |
 | Gold aggregation                | 🕒 Planned |
 | Data-quality audit              | 🕒 Planned |
-| Azure implementation            | 🕒 Planned |
-| AWS port                        | 🕒 Planned |
+| AWS cloud foundation (Terraform, primary) | 🕒 Planned (RF-011) |
+| Azure comparison (optional, later) | 🕒 Planned |
 | Power BI dashboards             | 🕒 Planned |
 | n8n read-only operations agent  | 🕒 Planned |
 | Monitoring                      | 🕒 Planned |

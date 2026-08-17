@@ -11,13 +11,16 @@
   holds analytics-ready business models)
 - A data-quality audit layer, exercised against the deliberately dirty
   source profiles
-- An Azure implementation of the pipeline, including Snowflake-style
-  multi-file COPY INTO ingestion patterns against the portfolio profile
+- An AWS implementation of the pipeline (RF-011, primary cloud
+  implementation) — Terraform-provisioned S3/IAM/KMS feeding Snowflake,
+  including multi-file `COPY INTO` ingestion patterns against the portfolio
+  profile
 - Power BI dashboards answering the business questions in
   [README.md](README.md)
 - A read-only n8n operations agent that can *observe and report*, with any
   action requiring explicit human approval
-- An AWS port of the Azure implementation, to compare cloud approaches
+- An optional, later Azure implementation to compare cloud approaches (see
+  [DECISIONS.md](DECISIONS.md) #010)
 - Testing, monitoring, and CI/CD across the implemented components
 
 ## Out of scope

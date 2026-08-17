@@ -36,7 +36,7 @@ same design to AWS as a separate ticket.
 comparing services across providers, rather than building both in parallel
 and understanding neither well.
 
-**Status:** Accepted.
+**Status:** Superseded by 010. AWS is now built first — see 010.
 
 ## 004 — Hybrid deterministic and agentic automation
 
@@ -118,3 +118,21 @@ multi-file, cloud-scale ingestion patterns (e.g. Snowflake `COPY INTO`)
 that the original small `development`-only design couldn't demonstrate.
 
 **Status:** Accepted.
+
+## 010 — AWS-first primary implementation; Azure becomes an optional later comparison
+
+**Decision:** Supersede 003's Azure-first sequencing. AWS is now the
+primary cloud implementation, built first under RF-011 (AWS cloud
+foundation — Terraform-provisioned S3/IAM/KMS as the base layer). Azure
+(RF-006/RF-007) becomes an optional, later portability/comparison exercise
+rather than the first cloud platform built. Target architecture: Terraform
+→ AWS S3/IAM/KMS → Snowflake RAW → dbt Silver/Gold → Airflow → Power BI +
+AI + monitoring.
+
+**Rationale:** The project's target outcome is a Cloud Data Engineer
+portfolio emphasizing AWS, Terraform, Snowflake, dbt, Airflow,
+observability, security, and cost controls. Building AWS first directly
+serves that target skill set; Azure remains a valuable comparison exercise
+later, but is no longer the priority path.
+
+**Status:** Accepted. Supersedes 003.
