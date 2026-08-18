@@ -1,0 +1,13 @@
+# Copy this file to terraform.tfvars (gitignored) if you want to override
+# the defaults already set in variables.tf. All values below are safe,
+# non-secret placeholders - no account ID, ARN, or credential belongs in
+# this file.
+
+aws_region   = "ca-central-1"
+project_name = "retailflow"
+environment  = "dev"
+owner        = "DataEngineering"
+
+# Retention (see variables.tf for full descriptions).
+state_noncurrent_version_expiration_days = 90
+abort_incomplete_multipart_upload_days   = 7

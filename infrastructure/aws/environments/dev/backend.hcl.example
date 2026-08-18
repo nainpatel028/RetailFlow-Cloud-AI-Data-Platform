@@ -1,0 +1,20 @@
+# Copy this file to backend.hcl (gitignored) and fill in real values from
+# the bootstrap stack's outputs:
+#
+#   cd ../../bootstrap && terraform output state_bucket_name
+#
+# Then run:
+#
+#   terraform init -backend-config=backend.hcl
+#
+# Do not put the account ID, credentials, or the real bucket name in any
+# tracked file - only in this untracked copy.
+
+bucket       = "<state-bucket-name-from-bootstrap-output>"
+key          = "environments/dev/terraform.tfstate"
+region       = "ca-central-1"
+encrypt      = true
+
+# Native S3 state locking (Terraform >= 1.11) - no DynamoDB lock table,
+# since DynamoDB-based locking is deprecated.
+use_lockfile = true

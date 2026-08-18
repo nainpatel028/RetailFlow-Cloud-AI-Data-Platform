@@ -63,3 +63,26 @@ temp/
 data/incoming/*/customers/
 data/incoming/*/orders/
 data/incoming/*/payments/
+
+# Terraform (infrastructure/aws/) — local working files and anything that
+# could contain real account-specific values are ignored. Module source,
+# the dependency lock file, and the *.example templates ARE tracked so the
+# intended configuration stays documented.
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Real tfvars/backend config (contains real values) — keep the .example
+# templates tracked.
+*.tfvars
+!*.tfvars.example
+backend.hcl
+!backend.hcl.example

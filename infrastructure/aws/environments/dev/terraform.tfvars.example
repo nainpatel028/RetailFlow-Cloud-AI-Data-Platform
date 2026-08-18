@@ -1,0 +1,21 @@
+# Copy this file to terraform.tfvars (gitignored) if you want to override
+# the defaults already set in variables.tf. All values below are safe,
+# non-secret placeholders - no account ID, ARN, or credential belongs in
+# this file.
+
+aws_region                  = "ca-central-1"
+project_name                = "retailflow"
+environment                 = "dev"
+owner                       = "DataEngineering"
+
+# Incurs additional KMS charges when true (see modules/kms) - leave false
+# unless you have explicit approval to demonstrate SSE-KMS.
+enable_customer_managed_kms = false
+
+# Retention (see variables.tf for full descriptions). Current
+# landing/bronze/silver/gold data is never expired automatically,
+# regardless of these values - only noncurrent versions and logs expire.
+data_zone_noncurrent_version_expiration_days = 90
+logs_current_version_expiration_days         = 90
+logs_noncurrent_version_expiration_days      = 30
+abort_incomplete_multipart_upload_days       = 7
