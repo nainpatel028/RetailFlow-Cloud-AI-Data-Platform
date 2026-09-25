@@ -27,7 +27,11 @@ remote backend — the classic chicken-and-egg problem. This is solved with
 two independent stacks:
 
 1. **`bootstrap/`** — creates one S3 bucket to hold Terraform remote state.
-   Uses **local** state itself (there's nothing else to point it at yet).
+   The first apply uses **local** state (there's nothing else to point it
+   at yet); afterwards its state is migrated into the bucket it just
+   created, via the same partial-backend pattern (`backend.tf` +
+   untracked `backend.hcl`, copied from `backend.hcl.example`):
+   `terraform init -backend-config=backend.hcl -migrate-state`.
    Apply this once per AWS account/region.
 2. **`environments/dev/`** — the actual data-lake infrastructure (via
    `modules/data_lake`, `modules/kms`, `modules/iam`). Uses the bucket
@@ -38,7 +42,7 @@ two independent stacks:
 
 ```text
 infrastructure/aws/
-├── bootstrap/        # one-time per account/region: the state bucket, local state
+├── bootstrap/        # one-time per account/region: the state bucket (state migrated into it)
 ├── modules/
 │   ├── data_lake/     # 5 S3 buckets: landing, bronze, silver, gold, logs
 │   ├── kms/            # optional customer-managed key (disabled by default)
@@ -216,9 +220,10 @@ terraform fmt -check -recursive infrastructure/aws
 # useful for local validation without AWS credentials)
 terraform init -backend=false
 
-# Initialize for real, wiring up the S3 backend (environments/dev only,
-# after copying backend.hcl.example -> backend.hcl and filling in the
-# bootstrap bucket name)
+# Initialize for real, wiring up the S3 backend (after copying
+# backend.hcl.example -> backend.hcl and filling in the bootstrap bucket
+# name). For bootstrap/, add -migrate-state the first time to move its
+# local state into the bucket it created.
 terraform init -backend-config=backend.hcl
 
 # Validate configuration (syntax + internal consistency; no AWS calls)
@@ -246,13 +251,12 @@ output line by line first.
 
 ## What's NOT implemented yet
 
-- No `terraform apply` has ever been run against this code — no AWS
-  resource described here exists. A read-only `terraform plan` has been
-  run against `bootstrap/` (confirmed 7 resources to add, 0 to
-  change/destroy — the expected result against an account where nothing
-  has been created yet). `environments/dev/` cannot be planned against a
-  real backend until `bootstrap/` is actually applied and its state
-  bucket exists — that is deliberately not done as part of this ticket.
+- `bootstrap/` has been applied (7 resources: the state bucket and its
+  versioning, encryption, public-access block, ownership controls,
+  lifecycle, and TLS-only policy), and its state has been migrated from
+  local into that bucket under `bootstrap/terraform.tfstate`.
+  `environments/dev/` has not been applied — none of the data-lake,
+  KMS, or IAM resources exist yet.
 - No Snowflake, dbt, or Airflow configuration (later tickets).
 - No CI/CD pipeline for Terraform (`terraform fmt -check` /
   `terraform validate` are documented above as manual commands for now).
